@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>money manager</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+    <style>
+        .card{
+          box-sizing: border-box;
+          box-shadow:7px 7px 10px 1px black ;
+        }
+    </style>
+  </head>
+  <body>
+        
+
+            
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded">
+          <div class="container-fluid d-flex justify-content-between ">
+              <a class="navbar-brand " id="whouser" href="#"></a>
+              <button onclick="logout()" class="btn btn-outline-danger" >Logout</button>
+            </div>
+        </nav>
+        
+        <div class="container">
+                <div class="row mt-4 ">
+                    <div class="col col-sm-4 mb-4">
+                        <div class="card c1 border-0 mx-auto">
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Remaining</h4>
+                                <h1><i class="text-warning bi bi-briefcase"></i></h1>
+                                <div><h1 id="totalam">0</h1></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col col-sm-4 mb-4">
+                        <div class="card c1 border-0">
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Income</h4>
+                                <h1><i class="text-success bi bi-cash-stack"></i> </h1>
+                                <div><h1 id="incomsow">0</h1></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col col-sm-4 mb-4">
+                        <div class="card c1 border-0">
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Expenses</h4>
+                                <h1><i class=" text-danger bi bi-wallet"></i></h1>
+                                <div><h1 id="expens">0</h1></div>
+                            </div>
+                        </div>
+                    </div>    
+            </div>
+
+        <!-- income card -->
+            <div class="container">
+                <div class="row mt-4 " >
+                    <div class="col col-sm-12 col-md-6 ">
+                        <div class="card mb-4">
+                            <div class="card-header text-center bg-secondary text-light">
+                                <h5>Income</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <input type="number" class="form-control" id="incamount" placeholder="Enter Amount">
+                                <br>
+                                <textarea class="form-control" id="inctitle" placeholder="Enter Your Income"></textarea>
+                                <br>
+                                <input type="date" class="form-control" id="indate" >
+                                <br>
+                                <button class="form-control btn btn-outline-success justify-content-center"onclick="addincame()">Add Income</button>
+                            </div>
+                        </div>
+                    </div>
+
+            <!-- expenses card -->
+                    <div class="col col-sm-12 col-md-6">
+                        <div class="card ">
+                            <div class="card-header text-center bg-secondary text-light">
+                                <h5>Expenses</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <input type="number" class="form-control" id="expnum" placeholder="Enter Amount">
+                                <br>
+                                <textarea class="form-control" id="exptitle" placeholder="Enter Your Expenses"></textarea>
+                                <br>
+                                <input type="date" class="form-control" id="exdate" >
+                                <br>
+                                <button class="form-control btn btn-outline-danger justify-content-center" onclick="addexpens()">Add Expenses</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- table -->
+            <div class="container">
+                <div class="row mt-4">
+                    <div class="col col-sm-11 col-md-5 offset-sm-1">
+                        <table class="table overflow-auto">
+                            <thead>
+                                <tr class="text-center">
+                                <th scope="col">IN-Amount</th>
+                                <th scope="col">Descrip</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Update</th>
+                                <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" id="inclog">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col col-sm-12 col-md-5">
+                        <table class="table overflow-auto">
+                            <thead>
+                                <tr class="text-center">
+                                <th scope="col">EX-Amount</th>
+                                <th scope="col">Descrip</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Update</th>
+                                <th scope="col">Delete</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" id="explog">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- model windwos inputs -->
+                    <input type="hidden" id="myidis">
+                    <input type="number" class="form-control" id="mexpnum" placeholder="Enter Amount">
+                    <br>
+                    <textarea class="form-control" id="mexptitle" placeholder="Enter Your Expenses"></textarea>
+                    <br>
+                    <input type="date" class="form-control" id="mexdate" >
+                    <br>
+                    <!-- end -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" onclick="savedata()" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- model window for the expenses -->
+  <div class="modal fade" id="exampleM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Expenses Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- model windwos inputs -->
+                    <input type="hidden" id="myid">
+                    <input type="number" class="form-control" id="mexpnum01" placeholder="Enter Amount">
+                    <br>
+                    <textarea class="form-control" id="mexptitle01" placeholder="Enter Your Expenses"></textarea>
+                    <br>
+                    <input type="date" class="form-control" id="mexdate01" >
+                    <br>
+                    <!-- end -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" onclick="savedata01()" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ...........................//////////////................. -->
+<!-- these is the income delete model -->
+<div class="modal fade" id="incdelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="deletinc">
+          Do You wan't delete Income Record....
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" onclick="indelete01()" data-bs-dismiss="modal" class="btn btn-primary">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- end incdelte -->
+
+<!-- theese is the expnses delete model -->
+
+                    
+        <div class="modal fade" id="expdelet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deletexp">
+                Do You wan't delete Expenses Record....
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" onclick="expdelete01()" data-bs-dismiss="modal" class="btn btn-primary">Yes</button>
+                </div>
+            </div>
+            </div>
+        </div>
+<!-- end expdelte -->
+
+     
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+        <script>
+            var totalamount;
+            var total;
+            if (localStorage.getItem("login")!=null) {
+                var logindata=JSON.parse(localStorage.getItem("login"));
+                document.getElementById("whouser").innerHTML=`I am ${logindata} :)`;
+                
+            }
+            else{
+                window.location="index.html";
+            }
+            
+            function addincame() {
+                var arr=[];
+                // console.log("income");
+                var amount=+document.getElementById("incamount").value;
+                var indate=document.getElementById("indate").value;
+                var descrip=document.getElementById("inctitle").value;
+                
+                document.getElementById("incamount").value="";
+                document.getElementById("indate").value="";
+                document.getElementById("inctitle").value="";
+                // console.log(amount,indate,descrip);
+                var obj01={
+                    incamt:amount,
+                    incdat:indate,
+                    indes:descrip
+                }
+                arr.push(obj01);
+                var ldata=JSON.parse(localStorage.getItem(`incame ${logindata}`));
+                if (ldata == null) {
+
+                    localStorage.setItem(`incame ${logindata}`, JSON.stringify(arr));
+                    
+                } else {
+                    var afarr=ldata.concat(arr);
+                    // console.log(afarr);
+                    localStorage.setItem(`incame ${logindata}`, JSON.stringify(afarr));
+                }
+                displayincome();
+                displayexpense();
+
+            }
+            displayincome();
+
+            function displayincome() {
+                totalamount=0;
+                var allldata=JSON.parse(localStorage.getItem(`incame ${logindata}`));
+                document.getElementById("inclog").innerHTML="";
+                if (allldata !== null) {
+                    for (var i = 0; i <allldata.length; i++) {
+                        // console.log(totalamount);
+                        //  totalincdata=totalamount;
+                        document.getElementById("inclog").innerHTML+=`
+                        <tr>
+                            <td>${allldata[i].incamt}</td>
+                            <td>${allldata[i].indes}</td>
+                            <td>${allldata[i].incdat}</td>
+                            <td ><button onclick="incupdate(${i})" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-info">update</button></td>
+                            <td ><button onclick="indelete(${i})" data-bs-toggle="modal" data-bs-target="#incdelete" class="btn btn-outline-warning">Delete</button></td>
+                            </tr>`;
+                            totalamount = totalamount +(+allldata[i].incamt);
+                        }
+                        document.getElementById("incomsow").innerHTML= totalamount;
+                } else {
+                    document.getElementById("inclog").innerHTML = "<h4>NO data found</h4>";
+                }
+            }
+           
+            function addexpens(){
+
+                var arr1=[];
+
+                var examount=+document.getElementById("expnum").value;
+                var exdate=document.getElementById("exptitle").value;
+                var exdesc=document.getElementById("exdate").value;
+               
+                document.getElementById("expnum").value="";
+                document.getElementById("exptitle").value="";
+                document.getElementById("exdate").value="";
+                // console.log(examount, exdate, exdesc);
+                var obj02={
+                    expamt:examount,
+                    expdat:exdate,
+                    expdes:exdesc
+                }
+                arr1.push(obj02);
+
+                var lxdata=JSON.parse(localStorage.getItem(`expamount ${logindata}`));
+                if (lxdata == null) {
+                    localStorage.setItem(`expamount ${logindata}`, JSON.stringify(arr1));
+                } else {
+                    var newarr01=lxdata.concat(arr1);
+                    localStorage.setItem(`expamount ${logindata}`, JSON.stringify(newarr01));
+                }
+                displayexpense();
+                displayincome();
+                
+            }
+
+            displayexpense();
+
+            function displayexpense() {
+                total=0;
+                // console.log("thi is  osddjfklf"+total);
+                var aldata=JSON.parse(localStorage.getItem(`expamount ${logindata}`));
+                document.getElementById("explog").innerHTML="";
+                // console.log(total);
+                if (aldata !== null) {
+                    for (let i = 0; i < aldata.length; i++) {
+                        // console.log(totalamount);
+                        // console.log(aldata[i].expamt);
+                        document.getElementById("explog").innerHTML +=`
+                        <tr>
+                            <td>${aldata[i].expamt}</td>
+                            <td>${aldata[i].expdat}</td>
+                            <td>${aldata[i].expdes}</td>
+                            <td ><button onclick="expupdate(${i})"data-bs-toggle="modal" data-bs-target="#exampleM" class="btn btn-outline-info">Update</button></td>
+                            <td ><button onclick="expdelete(${i})" data-bs-toggle="modal" data-bs-target="#expdelet" class="btn btn-outline-warning">Delete</button></td>
+                            </tr>`;
+                            total = total + (+aldata[i].expamt);
+
+                            
+                            // console.log(sabtotal);
+                        }
+                             var sabtotal = totalamount - (+total);
+                            document.getElementById("totalam").innerHTML= sabtotal;
+                            
+                            document.getElementById("expens").innerHTML= total;
+                            console.log(total);
+                } else {
+                    document.getElementById("explog").innerHTML = "<h4>NO data found</h4>";
+                }
+            }
+
+            // thisis update data from the income
+            function incupdate(id) {
+                // console.log(id);
+                var aladata=JSON.parse(localStorage.getItem(`incame ${logindata}`));
+                document.getElementById("mexpnum").value=aladata[id].incamt;
+                document.getElementById("mexptitle").value=aladata[id].indes;
+                document.getElementById("mexdate").value=aladata[id].incdat;
+                document.getElementById("myidis").value=id;
+            }
+
+            function savedata() {
+                // console.log("locasdjfnksdjf");
+                var id1=document.getElementById("myidis").value;
+                var mamout=document.getElementById("mexpnum").value;
+                var mdes=document.getElementById("mexptitle").value;
+                var mdate= document.getElementById("mexdate").value;
+                // console.log(mamout);
+                document.getElementById("mexpnum").value="";
+                document.getElementById("mexptitle").value="";
+                document.getElementById("mexdate").value="";
+
+                var alaedata=JSON.parse(localStorage.getItem(`incame ${logindata}`));
+
+                alaedata[id1].incamt=mamout;
+                alaedata[id1].indes=mdes;
+                alaedata[id1].incdat=mdate;
+                console.log(mamout);
+                localStorage.setItem(`incame ${logindata}`, JSON.stringify(alaedata));
+                displayincome();
+                displayexpense();
+            }
+            // end here....................
+            
+        // Expenses data edit satrt form heree
+            function expupdate(idexp) {
+                // console.log(id);
+                var aladata01=JSON.parse(localStorage.getItem(`expamount ${logindata}`));
+                document.getElementById("mexpnum01").value=aladata01[idexp].expamt;
+                document.getElementById("mexptitle01").value=aladata01[idexp].expdat;
+                document.getElementById("mexdate01").value=aladata01[idexp].expdes;
+                document.getElementById("myid").value=idexp;
+            }
+
+                function savedata01() {
+            
+                    var ide=document.getElementById("myid").value;
+                    var exmamout=document.getElementById("mexpnum01").value;
+                    var exmdes=document.getElementById("mexptitle01").value;
+                    var exmdate= document.getElementById("mexdate01").value;
+                    // console.log(exmamout);
+                    document.getElementById("mexpnum01").value="";
+                    document.getElementById("mexptitle01").value="";
+                    document.getElementById("mexdate01").value="";
+
+                    var alaedata01=JSON.parse(localStorage.getItem(`expamount ${logindata}`));
+
+                    alaedata01[ide].expamt=exmamout;
+                    alaedata01[ide].expdat=exmdes;
+                    alaedata01[ide].expdes=exmdate;
+                    // console.log(exmamout);
+                    localStorage.setItem(`expamount ${logindata}`, JSON.stringify(alaedata01));
+                    displayincome();
+                    displayexpense();
+            }
+
+            function indelete01(indelet) {
+                
+                document.getElementById("deletinc").value=indelet;
+            }
+            function indelete01() {
+                
+                var idlt=document.getElementById("deletinc").value;
+                var alaedata02=JSON.parse(localStorage.getItem(`incame ${logindata}`));
+                alaedata02.splice(idlt,1);
+                localStorage.setItem(`incame ${logindata}`, JSON.stringify(alaedata02));
+                displayincome();
+                displayexpense();
+            }
+            
+            function expdelete(exdelet) {
+                // console.log("expdelete");
+                document.getElementById("deletexp").value=exdelet;
+                
+                
+            }
+            function expdelete01() {
+                
+                var exidlt=document.getElementById("deletexp").value;
+                var alaedata03=JSON.parse(localStorage.getItem(`expamount ${logindata}`));
+                alaedata03.splice(exidlt,1);
+                localStorage.setItem(`expamount ${logindata}`, JSON.stringify(alaedata03));
+                displayexpense();
+                displayincome();
+            }
+
+            function logout() {
+                // console.log("logout");
+                localStorage.setItem("login", "");
+                window.location ="index.html";
+
+            }
+        
+            </script>
+  </body>
+</html>
